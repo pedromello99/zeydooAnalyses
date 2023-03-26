@@ -35,7 +35,6 @@ def MakeLogin(login, password):
     }
 
     response = requests.post('https://app.zeydoo.com/api/client/public/login/', json=json_data)
-    print(response.json())
     return response.json()['api_token']
 
 def GetOffers(token):
@@ -86,9 +85,9 @@ if __name__ == '__main__':
     token = MakeLogin(login, password)
     df = GetOffers(token)
     # df = pd.read_csv('offers.csv')
-    # df['País - 3'] = df['País - 3'].str.replace(' ', '').str.replace('"', '')
-    # df['País - 2'] = df['País - 2'].str.replace(' ', '').str.replace('"', '')
-    # df['País - Nome'] = df['País - Nome'].str.replace(' ', '')
-    # df['País - Nome'] = df['País - Nome'].str.replace('"', '')
-    # df.to_csv('offers.csv', index=False)
-    # inserttoDB(df, engine)
+    df['País - 3'] = df['País - 3'].str.replace(' ', '').str.replace('"', '')
+    df['País - 2'] = df['País - 2'].str.replace(' ', '').str.replace('"', '')
+    df['País - Nome'] = df['País - Nome'].str.replace(' ', '')
+    df['País - Nome'] = df['País - Nome'].str.replace('"', '')
+    df.to_csv('offers.csv', index=False)
+    inserttoDB(df, engine)
