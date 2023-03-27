@@ -59,7 +59,7 @@ def GetOffers(token):
             for item in response.json()['items']:
                 for cota in item['rates']:
                     valor = cota['amount']
-                    tudo.append({'id': item['id'], 'Nome': item['title'], 'Payout': valor, 'Coutries': cota['countries'], 'status': item['status'], 'vertical': item['vertical']['name'], 'type': item['type'], 
+                    tudo.append({'id': item['id'], 'Nome': item['title'], 'Payout': valor, 'Coutries': str(cota['countries']).replace('[','').replace(']', ''), 'status': item['status'], 'vertical': item['vertical']['name'], 'type': item['type'], 
                                         'conversion_type': item['conversion_type']['name'], 'top': item['tag']['is_top'], 'is_exclusive': item['tag']['is_exclusive'],
                                         'is_excluded': item['is_excluded'], 'redirectless_type': item['redirectless_type'], 'type': item['type']})
                     for pais in cota['countries']:
