@@ -59,14 +59,17 @@ def GetOffers(token):
             for item in response.json()['items']:
                 for cota in item['rates']:
                     valor = cota['amount']
+                    tudo.append({'id': item['id'], 'Nome': item['title'], 'Payout': valor, 'Coutries': cota['countries'], 'status': item['status'], 'vertical': item['vertical']['name'], 'type': item['type'], 
+                                        'conversion_type': item['conversion_type']['name'], 'top': item['tag']['is_top'], 'is_exclusive': item['tag']['is_exclusive'],
+                                        'is_excluded': item['is_excluded'], 'redirectless_type': item['redirectless_type'], 'type': item['type']})
                     for pais in cota['countries']:
                         if pais.upper() in ignore:
                             continue
-                        tudo.append({'id': item['id'], 'Nome': item['title'], 'Payout': valor, 'País - 3': TwoToTree(pais.upper()),
-                                        'País - 2': pais.upper(), 'País - Nome': translator[translator['Alpha-2 code'] == pais.upper()]['Country'].values[0],
-                                        'status': item['status'], 'vertical': item['vertical']['name'], 'type': item['type'], 
-                                        'conversion_type': item['conversion_type']['name'], 'top': item['tag']['is_top'], 'is_exclusive': item['tag']['is_exclusive'],
-                                        'is_excluded': item['is_excluded'], 'redirectless_type': item['redirectless_type'], 'type': item['type']})
+                        # tudo.append({'id': item['id'], 'Nome': item['title'], 'Payout': valor, 'País - 3': TwoToTree(pais.upper()),
+                        #                 'País - 2': pais.upper(), 'País - Nome': translator[translator['Alpha-2 code'] == pais.upper()]['Country'].values[0],
+                        #                 'status': item['status'], 'vertical': item['vertical']['name'], 'type': item['type'], 
+                        #                 'conversion_type': item['conversion_type']['name'], 'top': item['tag']['is_top'], 'is_exclusive': item['tag']['is_exclusive'],
+                        #                 'is_excluded': item['is_excluded'], 'redirectless_type': item['redirectless_type'], 'type': item['type']})
             page += 1
     df = pd.DataFrame(tudo)
     df.to_csv('offers.csv', index=False)
@@ -85,9 +88,9 @@ if __name__ == '__main__':
     token = MakeLogin(login, password)
     df = GetOffers(token)
     # df = pd.read_csv('offers.csv')
-    df['País - 3'] = df['País - 3'].str.replace(' ', '').str.replace('"', '')
-    df['País - 2'] = df['País - 2'].str.replace(' ', '').str.replace('"', '')
-    df['País - Nome'] = df['País - Nome'].str.replace(' ', '')
-    df['País - Nome'] = df['País - Nome'].str.replace('"', '')
+    # df['País - 3'] = df['País - 3'].str.replace(' ', '').str.replace('"', '')
+    # df['País - 2'] = df['País - 2'].str.replace(' ', '').str.replace('"', '')
+    # df['País - Nome'] = df['País - Nome'].str.replace(' ', '')
+    # df['País - Nome'] = df['País - Nome'].str.replace('"', '')
     df.to_csv('offers.csv', index=False)
     inserttoDB(df, engine)
